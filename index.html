@@ -1,85 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Captured by Jovan</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Captured by Jovan</title>
+  <meta name="description" content="Captured by Jovan — photography portfolio for portraits, events, weddings, and storytelling imagery." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --bg-soft: #121214;
+      --panel: rgba(255,255,255,0.06);
+      --line: rgba(255,255,255,0.10);
+      --text: #f5f5f5;
+      --muted: #b9b9c2;
+      --accent: #e7d7bb;
+      --max: 1240px;
+      --radius: 22px;
+      --shadow: 0 25px 80px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: linear-gradient(180deg, #09090a 0%, #0b0b0c 40%, #111214 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(16px);
+      background: rgba(10,10,12,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-top {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+    }
+
+    .brand-main {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      line-height: 0.9;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: white;
+      color: #0a0a0a;
+      font-weight: 600;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .button:hover { transform: translateY(-1px); }
+    .button.secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 28px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 76vh;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      background: #111;
+    }
+
+    .hero-card img {
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.72);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: end;
+      padding: 42px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.66));
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f7ead5;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(3.3rem, 7vw, 6.6rem);
+      line-height: 0.92;
+      max-width: 8ch;
+    }
+
+    .hero-copy p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #e9e9ee;
+      max-width: 56ch;
+      margin: 16px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .stats-card {
+      display: grid;
+      gap: 22px;
+    }
+
+    .panel {
+      border-radius: 28px;
+      padding: 26px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .mini-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .mini-gallery .shot {
+      aspect-ratio: 0.85;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #151515;
+    }
+
+    .mini-gallery .shot img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .mini-gallery .shot:hover img,
+    .work-card:hover img {
+      transform: scale(1.04);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .section {
+      padding: 54px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-head p,
+    .about-copy p,
+    .contact-copy p,
+    .service p,
+    .quote,
+    .footer p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .work-card {
+      overflow: hidden;
+      border-radius: 24px;
+      background: #121212;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .work-card .image-wrap {
+      aspect-ratio: 0.9;
+      overflow: hidden;
+      background: #151515;
+    }
+
+    .work-card img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .work-meta {
+      padding: 16px 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .work-meta h3 {
+      font-size: 1.02rem;
+      font-weight: 600;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .about-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .about-image {
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 540px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .about-image img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .service {
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .service .price {
+      display: inline-block;
+      margin-top: 14px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .quote {
+      font-size: 1.08rem;
+    }
+
+    .contact-card {
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .contact-row span:first-child {
+      color: var(--muted);
+    }
+
+    .contact-row a:hover {
+      color: var(--accent);
+    }
+
+    .footer {
+      padding: 20px 0 60px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 22px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1060px) {
+      .hero-grid,
+      .about-grid,
+      .contact-grid,
+      .service-grid,
+      .work-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner,
+      .section-head,
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .hero-card,
+      .about-image {
+        min-height: unset;
+      }
+
+      .hero-overlay {
+        padding: 28px;
+      }
+
+      .hero-grid,
+      .about-grid,
+      .contact-grid,
+      .service-grid,
+      .work-grid,
+      .mini-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      h1 { max-width: 10ch; }
+      .container { width: min(var(--max), calc(100% - 20px)); }
+      .panel { padding: 20px; border-radius: 22px; }
+    }
+  </style>
 </head>
-
 <body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-top">Photography Portfolio</span>
+        <span class="brand-main">Captured by Jovan</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#work">Portfolio</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-<header>
-<div class="logo">Captured by Jovan</div>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Elegant wedding photography scene" />
+          <div class="hero-overlay">
+            <div class="hero-copy">
+              <span class="eyebrow">Leicester • Midlands • UK</span>
+              <h1>Stories, style, and honest moments.</h1>
+              <p>A polished photography portfolio for weddings, portraits, events, and lifestyle imagery. Built to feel premium, editorial, and timeless.</p>
+              <div class="hero-actions">
+                <a class="button" href="#work">View Portfolio</a>
+                <a class="button secondary" href="#contact">Book a Shoot</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<nav>
-<a href="#home">Home</a>
-<a href="#portfolio">Portfolio</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
-</nav>
-</header>
+        <div class="stats-card">
+          <div class="panel">
+            <span class="eyebrow">Selected Frames</span>
+            <div class="mini-gallery">
+              <div class="shot"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80" alt="Portrait photography" /></div>
+              <div class="shot"><img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80" alt="Event photography" /></div>
+            </div>
+          </div>
+          <div class="panel">
+            <span class="eyebrow">Why this site works</span>
+            <div class="stats-grid">
+              <div class="stat">
+                <strong>Luxury</strong>
+                <span>Clean typography, large visuals, premium feel.</span>
+              </div>
+              <div class="stat">
+                <strong>Fast</strong>
+                <span>Single-file layout that is easy to host on GitHub Pages.</span>
+              </div>
+              <div class="stat">
+                <strong>Editable</strong>
+                <span>Swap the image links for your own work whenever you want.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="hero" id="home">
-<div class="hero-text">
-<h1>Captured by Jovan</h1>
-<p>Photography that tells a story</p>
-<a href="#portfolio" class="btn">View Portfolio</a>
-</div>
-</section>
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Portfolio</span>
+            <h2>Featured work</h2>
+          </div>
+          <div>
+            <p>Use the filters to separate your galleries. Replace these placeholders with your own photos later.</p>
+            <div class="filters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="weddings">Weddings</button>
+              <button class="filter-btn" data-filter="portraits">Portraits</button>
+              <button class="filter-btn" data-filter="events">Events</button>
+            </div>
+          </div>
+        </div>
 
-<section class="portfolio" id="portfolio">
+        <div class="work-grid">
+          <article class="work-card" data-category="weddings">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80" alt="Wedding portrait" /></div>
+            <div class="work-meta"><h3>Golden Hour Vows</h3><span class="tag">Weddings</span></div>
+          </article>
+          <article class="work-card" data-category="portraits">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80" alt="Editorial portrait" /></div>
+            <div class="work-meta"><h3>Editorial Light</h3><span class="tag">Portraits</span></div>
+          </article>
+          <article class="work-card" data-category="events">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" alt="Live event crowd" /></div>
+            <div class="work-meta"><h3>City After Dark</h3><span class="tag">Events</span></div>
+          </article>
+          <article class="work-card" data-category="portraits">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=1200&q=80" alt="Studio portrait" /></div>
+            <div class="work-meta"><h3>Quiet Confidence</h3><span class="tag">Portraits</span></div>
+          </article>
+          <article class="work-card" data-category="weddings">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80" alt="Wedding couple shot" /></div>
+            <div class="work-meta"><h3>Timeless Detail</h3><span class="tag">Weddings</span></div>
+          </article>
+          <article class="work-card" data-category="events">
+            <div class="image-wrap"><img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80" alt="Event portrait candid" /></div>
+            <div class="work-meta"><h3>Moments in Motion</h3><span class="tag">Events</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<h2>Portfolio</h2>
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1400&q=80" alt="Photographer holding camera" />
+        </div>
+        <div class="panel about-copy">
+          <span class="eyebrow">About</span>
+          <h2>Built for a real creative brand.</h2>
+          <p>Hi, I’m Jovan. This layout is designed to give you that proper photographer look straight away — big imagery, calm spacing, elegant fonts, and a premium dark theme that makes your work feel more cinematic.</p>
+          <p>You can use this as <strong>Captured by Jovan</strong>, <strong>Jovan Dhillon Photography</strong>, or your own brand name. It works well for portraits, family shoots, Punjabi weddings, engagement sessions, events, and travel photography.</p>
+          <p class="quote">“The best portfolio sites feel simple on the surface and polished underneath. That’s exactly what this is aiming for.”</p>
+        </div>
+      </div>
+    </section>
 
-<div class="gallery">
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Services</span>
+            <h2>What you can offer</h2>
+          </div>
+          <p>These are placeholder packages. Change the wording and prices to whatever fits your brand.</p>
+        </div>
+        <div class="service-grid">
+          <div class="service">
+            <h3>Portrait Sessions</h3>
+            <p>Solo portraits, graduation, birthday shoots, fashion-style sessions, and polished lifestyle imagery.</p>
+            <span class="price">From £95</span>
+          </div>
+          <div class="service">
+            <h3>Events</h3>
+            <p>Parties, private events, community functions, brand launches, and evening coverage with quick edits.</p>
+            <span class="price">From £150</span>
+          </div>
+          <div class="service">
+            <h3>Wedding Coverage</h3>
+            <p>Elegant storytelling from prep to reception, with natural candids, family shots, and signature edits.</p>
+            <span class="price">From £650</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<img src="images/photo1.jpg">
-<img src="images/photo2.jpg">
-<img src="images/photo3.jpg">
-<img src="images/photo4.jpg">
-<img src="images/photo5.jpg">
-<img src="images/photo6.jpg">
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <div class="panel contact-copy">
+          <span class="eyebrow">Contact</span>
+          <h2>Ready to shoot?</h2>
+          <p>Update the details below with your real Instagram, email address, and area. For now, this gives you the proper look of a finished contact section without needing a form backend yet.</p>
+          <div class="hero-actions">
+            <a class="button" href="mailto:hello@capturedbyjovan.com">Email Enquiry</a>
+            <a class="button secondary" href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+          </div>
+        </div>
+        <div class="panel contact-card">
+          <div class="contact-row"><span>Email</span><a href="mailto:hello@capturedbyjovan.com">hello@capturedbyjovan.com</a></div>
+          <div class="contact-row"><span>Instagram</span><a href="https://instagram.com" target="_blank" rel="noreferrer">@capturedbyjovan</a></div>
+          <div class="contact-row"><span>Based in</span><span>Leicester / Midlands / UK</span></div>
+          <div class="contact-row"><span>Availability</span><span>Weekends & selected evenings</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-</div>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Captured by Jovan. Built for a clean, modern photography brand.</p>
+      <p>Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
 
-</section>
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.work-card');
 
-<section class="about" id="about">
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const filter = button.dataset.filter;
 
-<h2>About</h2>
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('hidden', !match);
+        });
+      });
+    });
 
-<p>
-Hi, I'm Jovan — a UK-based photographer passionate about capturing authentic
-moments and telling stories through imagery.
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute('href')));
 
-Alongside working in IT, photography allows me to explore creativity and
-capture moments that matter — from events and portraits to everyday life.
-</p>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
 
-</section>
-
-<section class="contact" id="contact">
-
-<h2>Contact</h2>
-
-<p>Interested in working together? Get in touch.</p>
-
-<form>
-<input type="text" placeholder="Your name">
-<input type="email" placeholder="Email address">
-<textarea placeholder="Message"></textarea>
-<button type="submit">Send Message</button>
-</form>
-
-</section>
-
-<footer>
-
-<p>© 2026 Captured by Jovan</p>
-
-</footer>
-
+    sections.forEach(section => section && observer.observe(section));
+  </script>
 </body>
 </html>
