@@ -4,22 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Captured by Jovan</title>
-  <meta name="description" content="Captured by Jovan — photography portfolio for portraits, events, weddings, and storytelling imagery." />
+  <meta name="description" content="Captured by Jovan — premium photography portfolio for portraits, events, weddings, and storytelling imagery." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0c;
-      --bg-soft: #121214;
+      --bg: #09090b;
+      --bg-soft: #121216;
       --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(255,255,255,0.08);
       --line: rgba(255,255,255,0.10);
-      --text: #f5f5f5;
-      --muted: #b9b9c2;
-      --accent: #e7d7bb;
-      --max: 1240px;
-      --radius: 22px;
-      --shadow: 0 25px 80px rgba(0,0,0,0.35);
+      --text: #f6f3ee;
+      --muted: #bdb8b2;
+      --accent: #e8d8b7;
+      --accent-strong: #f3e6c9;
+      --max: 1260px;
+      --radius: 24px;
+      --shadow: 0 25px 80px rgba(0,0,0,0.38);
     }
 
     * { box-sizing: border-box; }
@@ -27,14 +29,20 @@
     body {
       margin: 0;
       font-family: Inter, system-ui, sans-serif;
-      background: linear-gradient(180deg, #09090a 0%, #0b0b0c 40%, #111214 100%);
+      background:
+        radial-gradient(circle at top left, rgba(121, 87, 38, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(180, 145, 84, 0.12), transparent 22%),
+        linear-gradient(180deg, #080809 0%, #0c0c0e 45%, #111216 100%);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
+    body.menu-open { overflow: hidden; }
     img { display: block; width: 100%; }
     a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
     .container {
       width: min(var(--max), calc(100% - 32px));
@@ -44,9 +52,9 @@
     .nav {
       position: sticky;
       top: 0;
-      z-index: 40;
-      backdrop-filter: blur(16px);
-      background: rgba(10,10,12,0.6);
+      z-index: 60;
+      backdrop-filter: blur(18px);
+      background: rgba(8,8,10,0.62);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
@@ -54,8 +62,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 74px;
-      gap: 20px;
+      min-height: 78px;
+      gap: 18px;
     }
 
     .brand {
@@ -74,7 +82,7 @@
     .brand-main {
       font-family: "Cormorant Garamond", serif;
       font-size: 2rem;
-      line-height: 0.9;
+      line-height: 0.92;
       font-weight: 600;
     }
 
@@ -86,11 +94,20 @@
       color: var(--muted);
     }
 
-    .nav-links a:hover, .nav-links a.active {
+    .nav-links a:hover,
+    .nav-links a.active,
+    .mobile-links a:hover {
       color: var(--text);
     }
 
-    .button {
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .button,
+    .ghost-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -98,20 +115,42 @@
       padding: 14px 22px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: white;
-      color: #0a0a0a;
       font-weight: 600;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      cursor: pointer;
     }
 
-    .button:hover { transform: translateY(-1px); }
-    .button.secondary {
+    .button {
+      background: white;
+      color: #0a0a0a;
+    }
+
+    .ghost-button {
       background: transparent;
       color: var(--text);
     }
 
+    .button:hover,
+    .ghost-button:hover,
+    .icon-button:hover,
+    .filter-btn:hover,
+    .contact-form button:hover {
+      transform: translateY(-1px);
+    }
+
+    .icon-button {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+    }
+
     .hero {
-      padding: 28px 0 40px;
+      padding: 28px 0 28px;
     }
 
     .hero-grid {
@@ -123,18 +162,28 @@
 
     .hero-card {
       position: relative;
-      min-height: 76vh;
+      min-height: 78vh;
       border-radius: 34px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: var(--shadow);
       background: #111;
+      isolation: isolate;
     }
 
     .hero-card img {
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.72);
+      filter: brightness(0.6) saturate(0.95);
+      transform: scale(1.02);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8,8,10,0.16), rgba(8,8,10,0.74));
+      z-index: 0;
     }
 
     .hero-overlay {
@@ -143,7 +192,7 @@
       display: flex;
       align-items: end;
       padding: 42px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.66));
+      z-index: 1;
     }
 
     .eyebrow {
@@ -153,13 +202,13 @@
       border-radius: 999px;
       background: rgba(255,255,255,0.10);
       border: 1px solid rgba(255,255,255,0.12);
-      color: #f7ead5;
+      color: #f8ebd6;
       font-size: 0.82rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    h1, h2, h3 {
+    h1, h2, h3, h4 {
       margin: 0;
       font-weight: 600;
       letter-spacing: -0.03em;
@@ -167,16 +216,36 @@
 
     h1 {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(3.3rem, 7vw, 6.6rem);
-      line-height: 0.92;
+      font-size: clamp(3.2rem, 7vw, 6.8rem);
+      line-height: 0.9;
       max-width: 8ch;
     }
 
-    .hero-copy p {
-      font-size: 1.05rem;
+    h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+    }
+
+    .hero-copy p,
+    .section-head p,
+    .about-copy p,
+    .contact-copy p,
+    .service p,
+    .quote,
+    .footer p,
+    .testimonial p,
+    .instagram-card p,
+    .contact-form p,
+    .feature-list li,
+    .contact-info p {
+      color: var(--muted);
       line-height: 1.75;
-      color: #e9e9ee;
-      max-width: 56ch;
+    }
+
+    .hero-copy p {
+      font-size: 1.06rem;
+      color: #ede8e0;
+      max-width: 58ch;
       margin: 16px 0 0;
     }
 
@@ -206,22 +275,32 @@
       gap: 14px;
     }
 
-    .mini-gallery .shot {
-      aspect-ratio: 0.85;
+    .mini-gallery .shot,
+    .instagram-card {
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: 22px;
       background: #151515;
+      position: relative;
     }
 
-    .mini-gallery .shot img {
+    .mini-gallery .shot {
+      aspect-ratio: 0.86;
+    }
+
+    .mini-gallery .shot img,
+    .work-card img,
+    .about-image img,
+    .instagram-card img {
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.55s ease;
     }
 
     .mini-gallery .shot:hover img,
-    .work-card:hover img {
-      transform: scale(1.04);
+    .work-card:hover img,
+    .about-image:hover img,
+    .instagram-card:hover img {
+      transform: scale(1.045);
     }
 
     .stats-grid {
@@ -243,9 +322,32 @@
       margin-bottom: 6px;
     }
 
-    .section {
-      padding: 54px 0;
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.025);
     }
+
+    .marquee-track {
+      display: inline-flex;
+      gap: 28px;
+      padding: 16px 0;
+      min-width: max-content;
+      animation: slide 26s linear infinite;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      font-size: 0.82rem;
+    }
+
+    @keyframes slide {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .section { padding: 58px 0; }
 
     .section-head {
       display: flex;
@@ -255,25 +357,11 @@
       margin-bottom: 24px;
     }
 
-    .section-head p,
-    .about-copy p,
-    .contact-copy p,
-    .service p,
-    .quote,
-    .footer p {
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    h2 {
-      font-size: clamp(2.2rem, 4vw, 3.7rem);
-      font-family: "Cormorant Garamond", serif;
-    }
-
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      margin-top: 12px;
     }
 
     .filter-btn {
@@ -282,14 +370,12 @@
       color: var(--muted);
       border-radius: 999px;
       padding: 10px 14px;
-      font: inherit;
       cursor: pointer;
     }
 
-    .filter-btn.active,
-    .filter-btn:hover {
+    .filter-btn.active {
       color: var(--text);
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.08);
     }
 
     .work-grid {
@@ -303,7 +389,8 @@
       border-radius: 24px;
       background: #121212;
       border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: transform 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+      cursor: pointer;
     }
 
     .work-card:hover {
@@ -315,12 +402,22 @@
       aspect-ratio: 0.9;
       overflow: hidden;
       background: #151515;
+      position: relative;
     }
 
-    .work-card img {
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
+    .work-card .image-wrap::after {
+      content: "View";
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(10,10,12,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--accent-strong);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .work-meta {
@@ -346,7 +443,8 @@
     }
 
     .about-grid,
-    .contact-grid {
+    .contact-grid,
+    .extras-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 22px;
@@ -356,28 +454,38 @@
     .about-image {
       border-radius: 28px;
       overflow: hidden;
-      min-height: 540px;
+      min-height: 560px;
       background: #111;
       border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
     }
 
-    .about-image img {
-      height: 100%;
-      object-fit: cover;
+    .feature-list {
+      padding-left: 18px;
+      margin: 20px 0 0;
     }
 
-    .service-grid {
+    .service-grid,
+    .instagram-grid,
+    .testimonial-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
       margin-top: 18px;
     }
 
-    .service {
+    .service-grid { grid-template-columns: repeat(3, 1fr); }
+    .instagram-grid { grid-template-columns: repeat(4, 1fr); }
+    .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .service,
+    .testimonial,
+    .contact-form,
+    .contact-info {
       border-radius: 24px;
       padding: 24px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
     }
 
     .service .price {
@@ -388,12 +496,76 @@
     }
 
     .quote {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
     }
 
-    .contact-card {
+    .testimonial h4,
+    .service h3,
+    .contact-info h3,
+    .contact-form h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .instagram-card {
+      aspect-ratio: 0.92;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .instagram-card::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(8,8,10,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--accent-strong);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact-grid { align-items: stretch; }
+
+    .contact-form form {
       display: grid;
-      gap: 14px;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 15px;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: #8d8a86;
+    }
+
+    .contact-form button {
+      justify-self: start;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: white;
+      color: #0a0a0a;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .contact-row {
@@ -408,12 +580,10 @@
       color: var(--muted);
     }
 
-    .contact-row a:hover {
-      color: var(--accent);
-    }
+    .contact-row a:hover { color: var(--accent); }
 
     .footer {
-      padding: 20px 0 60px;
+      padding: 24px 0 60px;
     }
 
     .footer-inner {
@@ -427,54 +597,151 @@
 
     .hidden { display: none !important; }
 
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,5,7,0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-frame {
+      position: relative;
+      width: min(1100px, 100%);
+      max-height: 92vh;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #0d0d10;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .lightbox-image {
+      width: 100%;
+      max-height: 78vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+    }
+
+    .lightbox-meta small { color: var(--muted); }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(8,8,10,0.7);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 999px;
+      width: 46px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .lightbox-close { top: 16px; right: 16px; }
+    .lightbox-nav.prev { left: 16px; top: 50%; transform: translateY(-50%); }
+    .lightbox-nav.next { right: 16px; top: 50%; transform: translateY(-50%); }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,10,0.94);
+      display: none;
+      z-index: 90;
+      padding: 96px 20px 20px;
+    }
+
+    .mobile-menu.open { display: block; }
+
+    .mobile-links {
+      display: grid;
+      gap: 14px;
+      font-size: 1.2rem;
+    }
+
+    .mobile-links a {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+    }
+
     @media (max-width: 1060px) {
       .hero-grid,
       .about-grid,
       .contact-grid,
+      .extras-grid,
       .service-grid,
-      .work-grid {
+      .work-grid,
+      .testimonial-grid,
+      .instagram-grid {
         grid-template-columns: 1fr 1fr;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
+      .stats-grid { grid-template-columns: 1fr; }
+      .nav-links,
+      .nav-actions .ghost-button { display: none; }
+      .icon-button { display: inline-flex; }
     }
 
     @media (max-width: 760px) {
-      .nav-inner,
       .section-head,
-      .footer-inner {
+      .footer-inner,
+      .lightbox-meta {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      .nav-links {
-        flex-wrap: wrap;
-        gap: 14px;
-      }
-
       .hero-card,
-      .about-image {
-        min-height: unset;
-      }
-
-      .hero-overlay {
-        padding: 28px;
-      }
+      .about-image { min-height: unset; }
+      .hero-overlay { padding: 28px; }
 
       .hero-grid,
       .about-grid,
       .contact-grid,
+      .extras-grid,
       .service-grid,
       .work-grid,
-      .mini-gallery {
+      .mini-gallery,
+      .instagram-grid,
+      .testimonial-grid {
         grid-template-columns: 1fr;
       }
 
       h1 { max-width: 10ch; }
       .container { width: min(var(--max), calc(100% - 20px)); }
-      .panel { padding: 20px; border-radius: 22px; }
+      .panel, .service, .testimonial, .contact-form, .contact-info { padding: 20px; border-radius: 22px; }
+      .lightbox-nav.prev { left: 10px; }
+      .lightbox-nav.next { right: 10px; }
+      .lightbox-close { top: 10px; right: 10px; }
     }
   </style>
 </head>
@@ -485,34 +752,51 @@
         <span class="brand-top">Photography Portfolio</span>
         <span class="brand-main">Captured by Jovan</span>
       </a>
+
       <nav class="nav-links">
         <a href="#work">Portfolio</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
+        <a href="#instagram">Gallery</a>
         <a href="#contact">Contact</a>
       </nav>
+
+      <div class="nav-actions">
+        <a class="ghost-button" href="#contact">Book a Shoot</a>
+        <button class="icon-button" id="menuToggle" aria-label="Open menu">☰</button>
+      </div>
     </div>
   </header>
 
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-links">
+      <a href="#work">Portfolio</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#instagram">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
   <main id="top">
-    <section class="hero">
+    <section class="hero reveal">
       <div class="container hero-grid">
         <div class="hero-card">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80" alt="Elegant wedding photography scene" />
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80" alt="Elegant wedding photography scene" />
           <div class="hero-overlay">
             <div class="hero-copy">
               <span class="eyebrow">Leicester • Midlands • UK</span>
               <h1>Stories, style, and honest moments.</h1>
-              <p>A polished photography portfolio for weddings, portraits, events, and lifestyle imagery. Built to feel premium, editorial, and timeless.</p>
+              <p>A premium photography portfolio for weddings, portraits, events, and lifestyle imagery. Elegant layout, cinematic presentation, and a much more polished client-ready feel.</p>
               <div class="hero-actions">
                 <a class="button" href="#work">View Portfolio</a>
-                <a class="button secondary" href="#contact">Book a Shoot</a>
+                <a class="ghost-button" href="#contact">Book a Shoot</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="stats-card">
+        <div class="stats-card reveal">
           <div class="panel">
             <span class="eyebrow">Selected Frames</span>
             <div class="mini-gallery">
@@ -521,19 +805,19 @@
             </div>
           </div>
           <div class="panel">
-            <span class="eyebrow">Why this site works</span>
+            <span class="eyebrow">Why this version feels better</span>
             <div class="stats-grid">
               <div class="stat">
-                <strong>Luxury</strong>
-                <span>Clean typography, large visuals, premium feel.</span>
+                <strong>Lightbox</strong>
+                <span>Clickable portfolio images with fullscreen viewing.</span>
               </div>
               <div class="stat">
-                <strong>Fast</strong>
-                <span>Single-file layout that is easy to host on GitHub Pages.</span>
+                <strong>Motion</strong>
+                <span>Smooth reveal animations and a more premium flow.</span>
               </div>
               <div class="stat">
-                <strong>Editable</strong>
-                <span>Swap the image links for your own work whenever you want.</span>
+                <strong>Client Ready</strong>
+                <span>Better contact section, gallery area, and mobile nav.</span>
               </div>
             </div>
           </div>
@@ -541,7 +825,24 @@
       </div>
     </section>
 
-    <section class="section" id="work">
+    <section class="marquee">
+      <div class="marquee-track">
+        <span>Captured by Jovan</span><span>•</span>
+        <span>Weddings</span><span>•</span>
+        <span>Portraits</span><span>•</span>
+        <span>Events</span><span>•</span>
+        <span>Punjabi Celebrations</span><span>•</span>
+        <span>Lifestyle Imagery</span><span>•</span>
+        <span>Captured by Jovan</span><span>•</span>
+        <span>Weddings</span><span>•</span>
+        <span>Portraits</span><span>•</span>
+        <span>Events</span><span>•</span>
+        <span>Punjabi Celebrations</span><span>•</span>
+        <span>Lifestyle Imagery</span><span>•</span>
+      </div>
+    </section>
+
+    <section class="section reveal" id="work">
       <div class="container">
         <div class="section-head">
           <div>
@@ -549,7 +850,7 @@
             <h2>Featured work</h2>
           </div>
           <div>
-            <p>Use the filters to separate your galleries. Replace these placeholders with your own photos later.</p>
+            <p>Use the filters to separate your galleries. Click any image to open it fullscreen.</p>
             <div class="filters">
               <button class="filter-btn active" data-filter="all">All</button>
               <button class="filter-btn" data-filter="weddings">Weddings</button>
@@ -559,28 +860,28 @@
           </div>
         </div>
 
-        <div class="work-grid">
-          <article class="work-card" data-category="weddings">
+        <div class="work-grid" id="portfolioGrid">
+          <article class="work-card" data-category="weddings" data-title="Golden Hour Vows" data-tag="Weddings" data-image="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80" alt="Wedding portrait" /></div>
             <div class="work-meta"><h3>Golden Hour Vows</h3><span class="tag">Weddings</span></div>
           </article>
-          <article class="work-card" data-category="portraits">
+          <article class="work-card" data-category="portraits" data-title="Editorial Light" data-tag="Portraits" data-image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80" alt="Editorial portrait" /></div>
             <div class="work-meta"><h3>Editorial Light</h3><span class="tag">Portraits</span></div>
           </article>
-          <article class="work-card" data-category="events">
+          <article class="work-card" data-category="events" data-title="City After Dark" data-tag="Events" data-image="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" alt="Live event crowd" /></div>
             <div class="work-meta"><h3>City After Dark</h3><span class="tag">Events</span></div>
           </article>
-          <article class="work-card" data-category="portraits">
+          <article class="work-card" data-category="portraits" data-title="Quiet Confidence" data-tag="Portraits" data-image="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=1200&q=80" alt="Studio portrait" /></div>
             <div class="work-meta"><h3>Quiet Confidence</h3><span class="tag">Portraits</span></div>
           </article>
-          <article class="work-card" data-category="weddings">
+          <article class="work-card" data-category="weddings" data-title="Timeless Detail" data-tag="Weddings" data-image="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80" alt="Wedding couple shot" /></div>
             <div class="work-meta"><h3>Timeless Detail</h3><span class="tag">Weddings</span></div>
           </article>
-          <article class="work-card" data-category="events">
+          <article class="work-card" data-category="events" data-title="Moments in Motion" data-tag="Events" data-image="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1600&q=80">
             <div class="image-wrap"><img src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80" alt="Event portrait candid" /></div>
             <div class="work-meta"><h3>Moments in Motion</h3><span class="tag">Events</span></div>
           </article>
@@ -588,7 +889,7 @@
       </div>
     </section>
 
-    <section class="section" id="about">
+    <section class="section reveal" id="about">
       <div class="container about-grid">
         <div class="about-image">
           <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1400&q=80" alt="Photographer holding camera" />
@@ -596,54 +897,110 @@
         <div class="panel about-copy">
           <span class="eyebrow">About</span>
           <h2>Built for a real creative brand.</h2>
-          <p>Hi, I’m Jovan. This layout is designed to give you that proper photographer look straight away — big imagery, calm spacing, elegant fonts, and a premium dark theme that makes your work feel more cinematic.</p>
-          <p>You can use this as <strong>Captured by Jovan</strong>, <strong>Jovan Dhillon Photography</strong>, or your own brand name. It works well for portraits, family shoots, Punjabi weddings, engagement sessions, events, and travel photography.</p>
-          <p class="quote">“The best portfolio sites feel simple on the surface and polished underneath. That’s exactly what this is aiming for.”</p>
+          <p>Hi, I’m Jovan. This version pushes the site further with a stronger flow, fullscreen gallery viewing, a more editorial layout, and sections that feel much closer to a high-end photographer portfolio.</p>
+          <p>It works really well for portraits, family shoots, Punjabi weddings, engagement sessions, private events, birthdays, and travel photography. Once your own photos go in, it’ll feel even more personal and premium.</p>
+          <ul class="feature-list">
+            <li>Luxury dark theme that lets photos stand out properly.</li>
+            <li>Click-to-expand portfolio viewer for a more professional experience.</li>
+            <li>Mobile menu and contact form layout so it feels more complete.</li>
+          </ul>
+          <p class="quote">“Simple on the surface, polished underneath.”</p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="services">
+    <section class="section reveal" id="services">
       <div class="container">
         <div class="section-head">
           <div>
             <span class="eyebrow">Services</span>
             <h2>What you can offer</h2>
           </div>
-          <p>These are placeholder packages. Change the wording and prices to whatever fits your brand.</p>
+          <p>These are placeholders for now, but the layout already feels like a finished services page.</p>
         </div>
         <div class="service-grid">
           <div class="service">
             <h3>Portrait Sessions</h3>
-            <p>Solo portraits, graduation, birthday shoots, fashion-style sessions, and polished lifestyle imagery.</p>
+            <p>Solo portraits, graduation shoots, birthdays, fashion-style sessions, and polished lifestyle imagery.</p>
             <span class="price">From £95</span>
           </div>
           <div class="service">
             <h3>Events</h3>
-            <p>Parties, private events, community functions, brand launches, and evening coverage with quick edits.</p>
+            <p>Parties, private events, cultural celebrations, launches, and evening coverage with quick edits.</p>
             <span class="price">From £150</span>
           </div>
           <div class="service">
             <h3>Wedding Coverage</h3>
-            <p>Elegant storytelling from prep to reception, with natural candids, family shots, and signature edits.</p>
+            <p>Elegant storytelling from prep to reception, with candid moments, family shots, and signature edits.</p>
             <span class="price">From £650</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="contact">
-      <div class="container contact-grid">
-        <div class="panel contact-copy">
-          <span class="eyebrow">Contact</span>
-          <h2>Ready to shoot?</h2>
-          <p>Update the details below with your real Instagram, email address, and area. For now, this gives you the proper look of a finished contact section without needing a form backend yet.</p>
-          <div class="hero-actions">
-            <a class="button" href="mailto:hello@capturedbyjovan.com">Email Enquiry</a>
-            <a class="button secondary" href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+    <section class="section reveal">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Client Feel</span>
+            <h2>Testimonials</h2>
           </div>
+          <p>These are placeholder quotes for now, but they make the site feel much more complete.</p>
         </div>
-        <div class="panel contact-card">
+        <div class="testimonial-grid">
+          <article class="testimonial">
+            <h4>Warm, natural, effortless</h4>
+            <p>“The photos felt elegant without looking overdone. The whole experience was relaxed and really professional.”</p>
+          </article>
+          <article class="testimonial">
+            <h4>Exactly the vibe we wanted</h4>
+            <p>“Everything looked clean, cinematic, and timeless. We loved how natural the final gallery felt.”</p>
+          </article>
+          <article class="testimonial">
+            <h4>Would book again</h4>
+            <p>“Fast communication, lovely energy on the day, and photos that actually looked premium.”</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="instagram">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Gallery</span>
+            <h2>Instagram-style preview</h2>
+          </div>
+          <p>This gives you the feel of a live social gallery, even before connecting anything real.</p>
+        </div>
+        <div class="instagram-grid">
+          <article class="instagram-card" data-label="Portrait"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80" alt="Portrait gallery preview" /></article>
+          <article class="instagram-card" data-label="Wedding"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80" alt="Wedding gallery preview" /></article>
+          <article class="instagram-card" data-label="Event"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Event gallery preview" /></article>
+          <article class="instagram-card" data-label="Lifestyle"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80" alt="Lifestyle gallery preview" /></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-form">
+          <span class="eyebrow">Contact</span>
+          <h3>Send an enquiry</h3>
+          <p>This form is styled and ready. Later, we can connect it to a real form service so messages actually send.</p>
+          <form>
+            <input type="text" placeholder="Your name" />
+            <input type="email" placeholder="Email address" />
+            <input type="text" placeholder="Type of shoot" />
+            <textarea placeholder="Tell me about your date, location, and what you’re looking for"></textarea>
+            <button type="button">Send Enquiry</button>
+          </form>
+        </div>
+
+        <div class="contact-info">
+          <span class="eyebrow">Details</span>
+          <h3>Make this section yours</h3>
+          <p>Swap these placeholder details for your real email, Instagram, and location once you’re ready.</p>
           <div class="contact-row"><span>Email</span><a href="mailto:hello@capturedbyjovan.com">hello@capturedbyjovan.com</a></div>
           <div class="contact-row"><span>Instagram</span><a href="https://instagram.com" target="_blank" rel="noreferrer">@capturedbyjovan</a></div>
           <div class="contact-row"><span>Based in</span><span>Leicester / Midlands / UK</span></div>
@@ -655,14 +1012,30 @@
 
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2026 Captured by Jovan. Built for a clean, modern photography brand.</p>
+      <p>© 2026 Captured by Jovan. Built to feel premium, minimal, and photographic.</p>
       <p>Hosted on GitHub Pages.</p>
     </div>
   </footer>
 
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-frame">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close image">✕</button>
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">←</button>
+      <img class="lightbox-image" id="lightboxImage" src="" alt="Expanded portfolio image" />
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">→</button>
+      <div class="lightbox-meta">
+        <div>
+          <strong id="lightboxTitle">Image title</strong><br />
+          <small id="lightboxTag">Category</small>
+        </div>
+        <small>Press Esc to close</small>
+      </div>
+    </div>
+  </div>
+
   <script>
     const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.work-card');
+    const cards = [...document.querySelectorAll('.work-card')];
 
     buttons.forEach(button => {
       button.addEventListener('click', () => {
@@ -678,9 +1051,9 @@
     });
 
     const navLinks = document.querySelectorAll('.nav-links a');
-    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute('href')));
+    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
 
-    const observer = new IntersectionObserver((entries) => {
+    const activeObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           navLinks.forEach(link => {
@@ -690,7 +1063,98 @@
       });
     }, { threshold: 0.35 });
 
-    sections.forEach(section => section && observer.observe(section));
+    sections.forEach(section => activeObserver.observe(section));
+
+    const revealItems = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    revealItems.forEach(item => revealObserver.observe(item));
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxTag = document.getElementById('lightboxTag');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    let currentIndex = 0;
+
+    function visibleCards() {
+      return cards.filter(card => !card.classList.contains('hidden'));
+    }
+
+    function openLightbox(index) {
+      const currentCards = visibleCards();
+      if (!currentCards.length) return;
+      currentIndex = index;
+      const card = currentCards[currentIndex];
+      lightboxImage.src = card.dataset.image;
+      lightboxTitle.textContent = card.dataset.title;
+      lightboxTag.textContent = card.dataset.tag;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function stepLightbox(direction) {
+      const currentCards = visibleCards();
+      if (!currentCards.length) return;
+      currentIndex = (currentIndex + direction + currentCards.length) % currentCards.length;
+      const card = currentCards[currentIndex];
+      lightboxImage.src = card.dataset.image;
+      lightboxTitle.textContent = card.dataset.title;
+      lightboxTag.textContent = card.dataset.tag;
+    }
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const currentCards = visibleCards();
+        const index = currentCards.indexOf(card);
+        openLightbox(index);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', () => stepLightbox(-1));
+    lightboxNext.addEventListener('click', () => stepLightbox(1));
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') stepLightbox(-1);
+      if (event.key === 'ArrowRight') stepLightbox(1);
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        document.body.classList.remove('menu-open');
+      });
+    });
   </script>
 </body>
 </html>
